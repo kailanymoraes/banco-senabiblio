@@ -136,10 +136,51 @@ SELECT * FROM emprestimos
 
 
 
+/* Criar uma procedure que traga quantos emprestimos foram 
+realizados por associado*/
+CREATE PROCEDURE ps_emprestimoAssociado()
+SELECT associados.idassociado, nomeassociado, COUNT(idemprestimo) FROM emprestimos
+INNER JOIN associados ON emprestimos.idassociado = associados.idAssociado GROUP BY associados.idAssociado ORDER BY nomeAssociado desc
 
-SELECT emprestimo, nomeassociado COUNT(idEmprestimo) FROM emprestimos
-INNER JOIN associados ON associados.idassociados=emprestimos.idassociados
-GROUP BY(idAssociado)
+CALL ps_emprestimoAssociado
+
+
+
+
+
+/* Criar uma procedure que traga quantos emprestimos foram 
+realizados por determinado associado por nome*/
+CREATE PROCEDURE ps_emprestimoDeterminado
+(IN nomeAssociadoD VARCHAR(50))
+SELECT associados.idassociado, nomeassociado, COUNT(idemprestimo) FROM emprestimos
+INNER JOIN associados ON emprestimos.idassociado = associados.idAssociado WHERE associados.nomeAssociado=nomeAssociadoD 
+
+
+DROP PROCEDURE ps_emprestimoDeterminado
+
+
+CALL  ps_emprestimoDeterminado ('Samantha Carioca')
+
+
+
+/*       ------QUERYS------
+						
+		PASSO A PASSO:
+						
+  a- o que eu quero na tela? ----> SELECT
+  b- onde estão os dados que eu quero na tabela? ----> TABELAS (JOINS)
+  c- tenho que agrupar? se sim ----> GROUP BY
+  d- tem filtro de coluna nativa/parametro? se sim ----> WHERE
+  e- tem filtro de agrupamento? se sim ----> HAVING
+  f- preciso ordenar? ORDER BY      
+  
+*/
+
+
+
+
+
+
 
 
 
